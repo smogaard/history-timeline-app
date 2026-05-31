@@ -1,24 +1,24 @@
+
 "use client";
 
-import useScreenWidth from "../hooks/useScreenWidth";
 import { useState } from "react";
 import TimelineColumn from "./TimelineColumn";
 import { timelines as initialTimelines } from "../data/events";
-
-
-const width = useScreenWidth();
-
-const getMaxTimelines = () => {
-  if (width < 600) return 2;       // mobil portrett
-  if (width < 900) return 3;       // mobil landskap / liten tablet
-  if (width < 1200) return 4;      // tablet
-  return 6;                        // desktop
-};
-
-const maxTimelines = getMaxTimelines();
+import useScreenWidth from "../hooks/useScreenWidth";
 
 
 export default function TimelineContainer() {
+  
+  const width = useScreenWidth();
+
+  const getMaxTimelines = () => {
+    if (width < 600) return 2;       // mobil portrett
+    if (width < 900) return 3;       // mobil landskap / liten tablet
+    if (width < 1200) return 4;      // tablet
+    return 6;                        // desktop
+  };
+
+  const maxTimelines = getMaxTimelines();
   const [timelines, setTimelines] = useState(initialTimelines);
 
   const handleAddTimeline = () => {
