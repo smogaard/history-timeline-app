@@ -1,8 +1,22 @@
 import { Timeline } from "../types";
 
-export default function TimelineColumn({ timeline }: { timeline: Timeline }) {
+
+export default function TimelineColumn({
+  timeline,
+  total,
+}: {
+  timeline: Timeline;
+  total: number;
+}) {
+ // ✅ BREDDELOGIKK
+ const getWidth = () => {
+    if (total <= 2) return "w-[300px]";
+    if (total <= 4) return "w-[240px]";
+    return "w-[180px]";
+  };
+
   return (
-    <div className="min-w-[220px] bg-white rounded-2xl shadow p-4 border">
+    <div className={`${getWidth()} bg-white rounded-2xl shadow p-4 border`}>
       <h2 className="font-bold text-lg mb-3">{timeline.title}</h2>
 
       <div className="flex flex-col gap-3">

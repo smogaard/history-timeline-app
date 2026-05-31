@@ -38,10 +38,16 @@ export default function TimelineContainer() {
 
   return (
     <main className="min-h-screen bg-gray-50 p-4 overflow-x-auto">
-      <div className="flex gap-4">
+      <div className="flex gap-4 w-full">
+        
         {timelines.map((tl) => (
-          <TimelineColumn key={tl.id} timeline={tl} />
+          <TimelineColumn
+            key={tl.id}
+            timeline={tl}
+            total={timelines.length}
+          />
         ))}
+
       </div>
 
       {/* + knapp */}
