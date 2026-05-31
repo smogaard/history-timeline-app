@@ -1,0 +1,20 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function useScreenWidth() {
+  const [width, setWidth] = useState<number>(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setWidth(window.innerWidth);
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  return width;
+}
