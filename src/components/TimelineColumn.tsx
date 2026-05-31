@@ -1,4 +1,4 @@
-import { Timeline } from "@/types";
+import { Timeline } from "../types";
 
 export default function TimelineColumn({ timeline }: { timeline: Timeline }) {
   return (
