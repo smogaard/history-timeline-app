@@ -37,8 +37,8 @@ export default function TimelineContainer() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 p-4 overflow-x-auto">
-      <div className="flex gap-4 w-full">
+    <main className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-auto">
+      <div className="flex gap-4 w-full items-stretch">
         
         {timelines.map((tl) => (
           <TimelineColumn
