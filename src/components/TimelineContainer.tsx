@@ -7,12 +7,47 @@ import { timelines as initialTimelines } from "../data/events";
 import useScreenWidth from "../hooks/useScreenWidth";
 import TimeColumn from "./TimeColumn";
 
+import {
+  DndContext,
+  closestCenter,
+} from "@dnd-kit/core";
+
+import {
+  arrayMove,
+  SortableContext,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
+
 
 export default function TimelineContainer() {
   
-  const generateYears = () => {
-    return [1750, 1800, 1850, 1900, 1950, 2000];
+  
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) return;
+
+    setTimelines((items) => {
+      const oldIndex = items.findIndex((i) => i.id === active.id);
+      const newIndex = items.findIndex((i) => i.id === over.id);
+
+      return arrayMove(items, oldIndex, newIndex);
+    });
   };
+
+  const generateYears = () => {
+    const yearsSet = new Set<number>();
+
+    timelines.forEach((timeline) => {
+      timeline.events.forEach((event) => {
+        yearsSet.add(event.year);
+      });
+    });
+
+    return Array.from(yearsSet).sort((a, b) => a - b);
+  };
+
 
   const width = useScreenWidth();
 
@@ -49,23 +84,29 @@ export default function TimelineContainer() {
 
   return (
     <main className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-auto">
-      
-      <div className="flex gap-4 w-full items-stretch">
-        
-        {/* ✅ TIDSHJUL */}
-        <TimeColumn years={generateYears()} />
+            
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext
+          items={timelines.map((t) => t.id)}
+          strategy={horizontalListSortingStrategy}
+        >
+          <div className="flex gap-4 w-full items-stretch">
+            
+            <TimeColumn years={generateYears()} />
 
-        {/* ✅ HJUL */}
-        {timelines.map((tl) => (
-          <TimelineColumn
-            key={tl.id}
-            timeline={tl}
-            total={timelines.length}
-            onRemove={handleRemove}
-          />
-        ))}
+            {timelines.map((tl) => (
+              <TimelineColumn
+                key={tl.id}
+                timeline={tl}
+                total={timelines.length}
+                onRemove={handleRemove}
+              />
+            ))}
 
-      </div>
+          </div>
+        </SortableContext>
+      </DndContext>
+
 
       {/* + knapp */}
       <button

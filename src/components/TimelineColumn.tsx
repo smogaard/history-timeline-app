@@ -1,5 +1,9 @@
 import { Timeline } from "../types";
 
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+
 
 export default function TimelineColumn({
   timeline,
@@ -12,6 +16,19 @@ export default function TimelineColumn({
 }){
 
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: timeline.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const getDetailLevel = () => {
     if (total <= 2) return "full";
     if (total <= 4) return "medium";
@@ -20,7 +37,15 @@ export default function TimelineColumn({
 
 
   return (
-    <div className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative">
+    
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative cursor-move"
+    >
+
       <h2 className="font-bold text-lg mb-3">{timeline.title}</h2>
 
       <div className="flex flex-col gap-3">
