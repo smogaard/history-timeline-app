@@ -4,10 +4,12 @@ import { Timeline } from "../types";
 export default function TimelineColumn({
   timeline,
   total,
+  onRemove,
 }: {
   timeline: Timeline;
   total: number;
-}) {
+  onRemove: (id: string) => void;
+}){
 
 
   const getDetailLevel = () => {
@@ -18,10 +20,18 @@ export default function TimelineColumn({
 
 
   return (
-    <div className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border">
+    <div className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative"
       <h2 className="font-bold text-lg mb-3">{timeline.title}</h2>
 
       <div className="flex flex-col gap-3">
+        
+        <button
+          onClick={() => onRemove(timeline.id)}
+          className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+        >
+          ✕
+        </button>
+
         {timeline.events.map((event) => {
           const detail = getDetailLevel();
 
