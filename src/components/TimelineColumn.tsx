@@ -51,9 +51,11 @@ export default function TimelineColumn({
       <div className="flex flex-col gap-3">
         
         <button
-          onClick={() => onRemove(timeline.id)}
-          className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
-        >
+          onClick={(e) => {
+            e.stopPropagation();      // ✅ viktig
+            onRemove(timeline.id);
+          }}
+          className="absolute top-2 right-2 text-gray-400 hover:text-red-500 z-10">
           ✕
         </button>
 
@@ -61,23 +63,43 @@ export default function TimelineColumn({
           const detail = getDetailLevel();
 
           return (
-            <div key={event.id} className="p-2 rounded-xl bg-gray-100">
-              
-              {/* ALLTID synlig */}
-              <div className="text-sm text-gray-500">{event.year}</div>
+            <div
+              <div key={event.id} className="relative py-2">
 
-              {/* Medium + full */}
-              {detail !== "compact" && (
-                <div className="font-medium">{event.title}</div>
-              )}
+              {/* ✅ STIPLET LINJE (BAK ALT) */}
+              <div className="absolute left-[-300px] right-0 top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
-              {/* Kun full */}
-              {detail === "full" && (
-                <div className="text-sm text-gray-600">
-                  Ekstra info kan komme her senere
+              {/* ✅ EVENT BLOKK (FORAN LINJE) */}
+              <div
+                className="relative z-10 inline-block bg-white px-2 py-1 rounded whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+
+                {/* ÉN LINJE */}
+                <div className="flex items-center gap-2">
+
+                  {/* År */}
+                  <span className="text-gray-500 text-sm">
+                    {event.year}
+                  </span>
+
+                  {/* Tittel */}
+                  {detail !== "compact" && (
+                    <span className="font-medium">
+                      {event.title}
+                    </span>
+                  )}
+
                 </div>
-              )}
-              
+
+                {/* Ekstra info */}
+                {detail === "full" && (
+                  <div className="text-sm text-gray-600 mt-1">
+                    Ekstra info kan komme her senere
+                  </div>
+                )}
+
+              </div>
+
             </div>
           );
         })}
