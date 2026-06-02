@@ -5,10 +5,15 @@ import { useState } from "react";
 import TimelineColumn from "./TimelineColumn";
 import { timelines as initialTimelines } from "../data/events";
 import useScreenWidth from "../hooks/useScreenWidth";
+import TimeColumn from "./TimeColumn";
 
 
 export default function TimelineContainer() {
   
+  const generateYears = () => {
+    return [1750, 1800, 1850, 1900, 1950, 2000];
+  };
+
   const width = useScreenWidth();
 
   const getMaxTimelines = () => {
@@ -38,13 +43,19 @@ export default function TimelineContainer() {
 
   return (
     <main className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-auto">
+      
       <div className="flex gap-4 w-full items-stretch">
         
+        {/* ✅ TIDSHJUL */}
+        <TimeColumn years={generateYears()} />
+
+        {/* ✅ HJUL */}
         {timelines.map((tl) => (
           <TimelineColumn
             key={tl.id}
             timeline={tl}
             total={timelines.length}
+            onRemove={handleRemove}
           />
         ))}
 
