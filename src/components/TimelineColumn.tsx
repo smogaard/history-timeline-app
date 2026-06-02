@@ -60,49 +60,46 @@ export default function TimelineColumn({
         </button>
 
         {timeline.events.map((event) => {
-          const detail = getDetailLevel();
+  const detail = getDetailLevel();
 
-          return (
-            <div
-              <div key={event.id} className="relative py-2">
+  return (
+    <div key={event.id} className="relative py-2">
 
-              {/* ✅ STIPLET LINJE (BAK ALT) */}
-              <div className="absolute left-[-300px] right-0 top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+      {/* ✅ STIPLET LINJE (BAK ALT) */}
+      <div className="absolute left-[-300px] right-0 top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
-              {/* ✅ EVENT BLOKK (FORAN LINJE) */}
-              <div
-                className="relative z-10 inline-block bg-white px-2 py-1 rounded whitespace-nowrap overflow-hidden text-ellipsis"
-              >
+      {/* ✅ EVENT BLOKK (FORAN) */}
+      <div className="relative z-10 inline-block bg-white px-2 py-1 rounded whitespace-nowrap overflow-hidden text-ellipsis">
 
-                {/* ÉN LINJE */}
-                <div className="flex items-center gap-2">
+        {/* ÉN LINJE */}
+        <div className="flex items-center gap-2">
 
-                  {/* År */}
-                  <span className="text-gray-500 text-sm">
-                    {event.year}
-                  </span>
+          {/* År */}
+          <span className="text-gray-500 text-sm">
+            {event.year}
+          </span>
 
-                  {/* Tittel */}
-                  {detail !== "compact" && (
-                    <span className="font-medium">
-                      {event.title}
-                    </span>
-                  )}
+          {/* Tittel */}
+          {detail !== "compact" && (
+            <span className="font-medium">
+              {event.title}
+            </span>
+          )}
 
-                </div>
+        </div>
 
-                {/* Ekstra info */}
-                {detail === "full" && (
-                  <div className="text-sm text-gray-600 mt-1">
-                    Ekstra info kan komme her senere
-                  </div>
-                )}
+        {/* Ekstra info */}
+        {detail === "full" && (
+          <div className="text-sm text-gray-600 mt-1">
+            Ekstra info kan komme her senere
+          </div>
+        )}
 
-              </div>
+      </div>
 
-            </div>
-          );
-        })}
+    </div>
+  );
+})}
       </div>
     </div>
   );
