@@ -26,6 +26,12 @@ export default function TimelineContainer() {
   const maxTimelines = getMaxTimelines();
   const [timelines, setTimelines] = useState(initialTimelines);
 
+  
+  const handleRemove = (id: string) => {
+    setTimelines((prev) => prev.filter((t) => t.id !== id));
+  };
+
+
   const handleAddTimeline = () => {
     if (timelines.length >= maxTimelines) {
       alert("Maks antall nådd. Roter skjermen for flere tema.");
