@@ -20,7 +20,7 @@ export default function TimelineColumn({
 
 
   return (
-    <div className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative"
+    <div className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative">
       <h2 className="font-bold text-lg mb-3">{timeline.title}</h2>
 
       <div className="flex flex-col gap-3">
