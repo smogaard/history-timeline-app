@@ -23,7 +23,9 @@ import {
 export default function TimelineContainer() {
   
   
-  const handleDragEnd = (event: any) => {
+ const [timelines, setTimelines] = useState(initialTimelines);
+ 
+ const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
@@ -59,7 +61,6 @@ export default function TimelineContainer() {
   };
 
   const maxTimelines = getMaxTimelines();
-  const [timelines, setTimelines] = useState(initialTimelines);
 
   
   const handleRemove = (id: string) => {
@@ -82,6 +83,8 @@ export default function TimelineContainer() {
     setTimelines([...timelines, newTimeline]);
   };
 
+  const years = generateYears();
+
   return (
     <main className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-auto">
             
@@ -92,7 +95,7 @@ export default function TimelineContainer() {
         >
           <div className="flex gap-4 w-full items-stretch">
             
-            <TimeColumn years={generateYears()} />
+            <TimeColumn years={years} />
 
             {timelines.map((tl) => (
               <TimelineColumn
@@ -100,6 +103,7 @@ export default function TimelineContainer() {
                 timeline={tl}
                 total={timelines.length}
                 onRemove={handleRemove}
+                years={years}
               />
             ))}
 
