@@ -86,14 +86,14 @@ export default function TimelineContainer() {
   const years = generateYears();
 
   return (
-    <main className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-auto">
+    <main className="h-screen bg-gray-50 p-2 sm:p-4 overflow-hidden">
             
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext
           items={timelines.map((t) => t.id)}
           strategy={horizontalListSortingStrategy}
         >
-          <div className="flex gap-4 w-full items-stretch">
+          <div className="flex gap-4 w-full items-stretch h-full overflow-y-auto">
             
             <TimeColumn years={years} />
 

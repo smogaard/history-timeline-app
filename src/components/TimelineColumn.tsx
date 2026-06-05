@@ -34,14 +34,20 @@ export default function TimelineColumn({
   };
 
   return (
+    
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
-      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative cursor-move"
+      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative"
     >
-      <h2 className="font-bold text-lg mb-3">{timeline.title}</h2>
+
+      <h2 
+        {...listeners}
+        className="font-bold text-lg mb-3" cursor-move
+      >
+        {timeline.title}
+      </h2>
 
       {/* ✅ Remove-knapp */}
       <button
@@ -64,7 +70,7 @@ export default function TimelineColumn({
             <div key={year} className="relative h-12 flex items-center">
 
               {/* ✅ STIPLET LINJE */}
-              <div className="absolute left-[-300px] right-0 top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+              <div className="absolute left-[-300px] right-auto w-[300px] top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
               {/* ✅ EVENT */}
               {event && (
