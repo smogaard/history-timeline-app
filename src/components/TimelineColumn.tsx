@@ -70,37 +70,43 @@ export default function TimelineColumn({
             <div key={year} className="relative h-12 flex items-center">
 
               {/* ✅ STIPLET LINJE */}
-              <div className="absolute left-[-300px] right-auto w-[300px] top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+              <div className="absolute left-[-300px] w-[300px] top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
-              {/* ✅ EVENT */}
-              {event && (
-                <div className="relative z-10 bg-white px-2 py-1 rounded whitespace-nowrap overflow-hidden text-ellipsis">
+              {/* ✅ EVENTS */}
+              {timeline.type === "events" && (() => {
+                const event = timeline.events.find(e => e.year === year);
 
-                  <div className="flex items-center gap-2">
+                return  (
+                  event && (
+                    <div className="relative z-10 bg-white px-2 py-1 rounded whitespace-nowrap">
 
-                    {/* År */}
-                    <span className="text-gray-500 text-sm">
-                      {event.year}
-                    </span>
+                      <span className="text-gray-500 text-sm mr-2">
+                        {event.year}
+                      </span>
 
-                    {/* Tittel */}
-                    {detail !== "compact" && (
                       <span className="font-medium">
                         {event.title}
                       </span>
-                    )}
 
-                  </div>
-
-                  {/* Ekstra info */}
-                  {detail === "full" && (
-                    <div className="text-sm text-gray-600 mt-1">
-                      Ekstra info kan komme her senere
                     </div>
-                  )}
+                  )
+                );
+              })()}
 
-                </div>
-              )}
+              {/* ✅ PERIODS */}
+              {timeline.type === "periods" && (() => {
+                const period = timeline.periods.find(
+                  (p) => year >= p.startYear && year <= p.endYear
+                );
+
+                return (
+                  period && (
+                    <div className="absolute left-0 right-4 h-6 bg-blue-200 rounded z-5 flex items-center px-2">
+                      {period.title}
+                    </div>
+                  )
+                );
+              })()}
 
             </div>
           );
