@@ -42,9 +42,19 @@ export default function TimelineContainer() {
     const yearsSet = new Set<number>();
 
     timelines.forEach((timeline) => {
-      timeline.events.forEach((event) => {
-        yearsSet.add(event.year);
-      });
+      if (timeline.type === "events") {
+        timeline.events.forEach((event) => {
+          yearsSet.add(event.year);
+        });
+      }
+
+      if (timeline.type === "periods") {
+        timeline.periods.forEach((p) => {
+          for (let y = p.startYear; y <= p.endYear; y++) {
+            yearsSet.add(y);
+          }
+        });
+      }
     });
 
     return Array.from(yearsSet).sort((a, b) => a - b);
@@ -119,6 +129,31 @@ export default function TimelineContainer() {
       >
         +
       </button>
+
+      {/* "Legg tilfra liste" knapp */}
+      <button
+        onClick={() => {
+          const existing = initialTimelines[0]; // midlertidig demo
+          setTimelines((prev) => [...prev, existing]);
+        }}
+        className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
+      >
+        Legg til fra liste
+      </button>
+
+      {/* "Rediger" knapp */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          alert("Redigering kommer senere");
+        }}
+        className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
+      >
+        ✏️
+      </button>
+
+
+
     </main>
   );
 }

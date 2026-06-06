@@ -69,26 +69,22 @@ export default function TimelineColumn({
           return (
             <div key={year} className="relative h-12 flex items-center">
 
-              {/* ✅ STIPLET LINJE */}
-              <div className="absolute left-[-300px] w-[300px] top-1/2 border-t border-dashed border-gray-400 z-0"></div>
-
               {/* ✅ EVENTS */}
               {timeline.type === "events" && (() => {
                 const event = timeline.events.find(e => e.year === year);
 
-                return  (
+                return (
                   event && (
-                    <div className="relative z-10 bg-white px-2 py-1 rounded whitespace-nowrap">
+                    <>
+                      {/* ✅ LINJE (kun hvis event finnes) */}
+                      <div className="absolute left-[-300px] w-[300px] top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
-                      <span className="text-gray-500 text-sm mr-2">
-                        {event.year}
-                      </span>
-
-                      <span className="font-medium">
-                        {event.title}
-                      </span>
-
-                    </div>
+                      {/* ✅ EVENT */}
+                      <div className="relative h-12 flex items-center" whitespace-nowrap">
+                        <span className="text-gray-500 text-sm mr-2">{event.year}</span>
+                        <span className="font-medium">{event.title}</span>
+                      </div>
+                    </>
                   )
                 );
               })()}
