@@ -89,7 +89,7 @@ export default function TimelineContainer() {
     const newTimeline = {
       id: Math.random().toString(),
       title: "Nytt tema",
-      type: "events",
+      type: "events"as const,
       events: [],
     };
 
