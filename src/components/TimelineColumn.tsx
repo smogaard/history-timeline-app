@@ -63,7 +63,7 @@ export default function TimelineColumn({
       {/* ✅ GRID BASERT PÅ TID */}
       <div className="flex flex-col">
         {years.map((year) => {
-          const event = timeline.events.find(e => e.year === year);
+          
           const detail = getDetailLevel();
 
           return (
