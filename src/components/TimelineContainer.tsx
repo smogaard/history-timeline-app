@@ -38,6 +38,7 @@ export default function TimelineContainer() {
     });
   };
 
+  
   const generateYears = () => {
     const yearsSet = new Set<number>();
 
@@ -50,15 +51,15 @@ export default function TimelineContainer() {
 
       if (timeline.type === "periods") {
         timeline.periods.forEach((p) => {
-          for (let y = p.startYear; y <= p.endYear; y++) {
-            yearsSet.add(y);
-          }
+          yearsSet.add(p.startYear);
+          yearsSet.add(p.endYear);
         });
       }
     });
 
     return Array.from(yearsSet).sort((a, b) => a - b);
   };
+
 
 
   const width = useScreenWidth();
@@ -84,7 +85,6 @@ export default function TimelineContainer() {
       return;
     }
 
-    
     
     const newTimeline = {
       id: Math.random().toString(),
@@ -138,7 +138,10 @@ export default function TimelineContainer() {
       {/* "Legg tilfra liste" knapp */}
       <button
         onClick={() => {
-          const existing = initialTimelines[0] as (typeof timelines)[number];
+          
+          const existing = initialTimelines[0];
+          setTimelines((prev) => [...prev, existing]);
+
           setTimelines((prev) => [...prev, existing]);
         }}
         className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
