@@ -31,14 +31,17 @@ export const timelines: Timeline[] = [
     ]
   },
 
+ 
   {
     id: "norway",
     title: "Norge",
+    type: "events",
     events: [
       { id: "4", title: "Grunnloven", year: 1814 },
       { id: "5", title: "Union med Sverige avsluttes", year: 1905 },
     ],
-  },
+  }
+
 
   
 ];

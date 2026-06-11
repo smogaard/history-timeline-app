@@ -38,7 +38,6 @@ export default function TimelineContainer() {
     });
   };
 
-  
   const generateYears = () => {
     const yearsSet = new Set<number>();
 
@@ -51,15 +50,15 @@ export default function TimelineContainer() {
 
       if (timeline.type === "periods") {
         timeline.periods.forEach((p) => {
-          yearsSet.add(p.startYear);
-          yearsSet.add(p.endYear);
+          for (let y = p.startYear; y <= p.endYear; y++) {
+            yearsSet.add(y);
+          }
         });
       }
     });
 
     return Array.from(yearsSet).sort((a, b) => a - b);
   };
-
 
 
   const width = useScreenWidth();
