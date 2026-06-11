@@ -84,11 +84,16 @@ export default function TimelineContainer() {
       return;
     }
 
+    
+    
     const newTimeline = {
       id: Math.random().toString(),
       title: "Nytt tema",
+      type: "events",
       events: [],
     };
+
+
 
     setTimelines([...timelines, newTimeline]);
   };
@@ -133,7 +138,7 @@ export default function TimelineContainer() {
       {/* "Legg tilfra liste" knapp */}
       <button
         onClick={() => {
-          const existing = initialTimelines[0]; // midlertidig demo
+          const existing = initialTimelines[0] as (typeof timelines)[number];
           setTimelines((prev) => [...prev, existing]);
         }}
         className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
@@ -141,16 +146,7 @@ export default function TimelineContainer() {
         Legg til fra liste
       </button>
 
-      {/* "Rediger" knapp */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          alert("Redigering kommer senere");
-        }}
-        className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
-      >
-        ✏️
-      </button>
+      
 
 
 

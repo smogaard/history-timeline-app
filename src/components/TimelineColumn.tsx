@@ -48,6 +48,17 @@ export default function TimelineColumn({
       >
         {timeline.title}
       </h2>
+      
+      
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          alert(`Rediger ${timeline.title}`);
+        }}
+        className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
+      >
+        ✏️
+      </button>
 
       {/* ✅ Remove-knapp */}
       <button
@@ -63,7 +74,7 @@ export default function TimelineColumn({
       {/* ✅ GRID BASERT PÅ TID */}
       <div className="flex flex-col">
         {years.map((year) => {
-          
+
           const detail = getDetailLevel();
 
           return (
