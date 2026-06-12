@@ -146,7 +146,7 @@ export default function TimelineColumn({
             return <div key={year} className="relative h-12" />;
           }
 
-s
+
 
           return null;
         })}
