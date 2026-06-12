@@ -22,3 +22,16 @@ export type Timeline =
         endYear: number;
       }[];
     };
+
+  | {
+      id: string;
+      title: string;
+      type: "combo";
+      events: EventItem[];
+      periods: {
+        id: string;
+        title: string;
+        startYear: number;
+        endYear: number;
+      }[];
+    }

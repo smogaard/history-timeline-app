@@ -52,7 +52,7 @@ export default function TimelineColumn({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          const answer = confirm(`Rediger ${timeline.title}?`);
+          const name = prompt(`Rediger ${timeline.title}?`);
         }}
         className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
       >
@@ -85,7 +85,7 @@ export default function TimelineColumn({
 
                 {event && (
                   <>
-                    <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+                    <div className="absolute style={{ left: "-9999px", right: "calc(100% + 12px)" }} top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
                     <div className="relative h-12 flex items-center whitespace-nowrap">
                       <span className="text-gray-500 text-sm mr-2">{event.year}</span>
@@ -144,6 +144,35 @@ export default function TimelineColumn({
             }
 
             return <div key={year} className="relative h-12" />;
+          }
+
+          
+          if (timeline.type === "combo") {
+            const event = timeline.events.find(e => e.year === year);
+
+            const activePeriods = timeline.periods.filter(
+              (p) => year >= p.startYear && year <= p.endYear
+            );
+
+            return (
+              <div key={year} className="relative h-12 flex items-center">
+
+                {/* period-striper */}
+                <div className="absolute left-0 flex gap-1">
+                  {activePeriods.map((p) => (
+                    <div key={p.id} className="w-[8px] bg-green-300 h-12" />
+                  ))}
+                </div>
+
+                {/* event */}
+                {event && (
+                  <div className="ml-6 bg-white px-2 py-1 rounded">
+                    {event.title}
+                  </div>
+                )}
+
+              </div>
+            );
           }
 
 

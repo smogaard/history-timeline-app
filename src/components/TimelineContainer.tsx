@@ -22,7 +22,7 @@ import {
 
 export default function TimelineContainer() {
   
-  
+ const [showList, setShowList] = useState(false); 
  const [timelines, setTimelines] = useState(initialTimelines);
  
  const handleDragEnd = (event: any) => {
@@ -80,23 +80,50 @@ export default function TimelineContainer() {
 
 
   const handleAddTimeline = () => {
-    if (timelines.length >= maxTimelines) {
-      alert("Maks antall nådd. Roter skjermen for flere tema.");
-      return;
+    const name = prompt("Navn på nytt hjul:");
+    if (!name) return;
+
+    const type = prompt("Type (events / periods / combo):");
+    if (!type) return;
+
+    if (type === "events") {
+      setTimelines((prev) => [
+        ...prev,
+        {
+          id: Math.random().toString(),
+          title: name,
+          type: "events",
+          events: [],
+        },
+      ]);
     }
 
-    
-    const newTimeline = {
-      id: Math.random().toString(),
-      title: "Nytt tema",
-      type: "events"as const,
-      events: [],
-    };
+    if (type === "periods") {
+      setTimelines((prev) => [
+        ...prev,
+        {
+          id: Math.random().toString(),
+          title: name,
+          type: "periods",
+          periods: [],
+        },
+      ]);
+    }
 
-
-
-    setTimelines([...timelines, newTimeline]);
+    if (type === "combo") {
+      setTimelines((prev) => [
+        ...prev,
+        {
+          id: Math.random().toString(),
+          title: name,
+          type: "combo",
+          events: [],
+          periods: [],
+        },
+      ]);
+    }
   };
+
 
   
   
@@ -169,12 +196,42 @@ export default function TimelineContainer() {
       </button>
 
       {/* "Legg tilfra liste" knapp */}
+      
       <button
-        onClick={handleAddFromList}
+        onClick={() => setShowList(true)}
         className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
       >
         Legg til fra liste
       </button>
+
+
+      {showList && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+          
+          <div className="bg-white p-6 rounded-2xl flex flex-wrap gap-4 max-w-md">
+
+            {initialTimelines.map((t) => (
+              <div
+                key={t.id}
+                onClick={() => {
+                  const chosen = {
+                    ...t,
+                    id: Math.random().toString(),
+                  };
+
+                  setTimelines((prev) => [...prev, chosen]);
+                  setShowList(false);
+                }}
+                className="w-[120px] h-[80px] bg-gray-100 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-200"
+              >
+                {t.title}
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+      )}
 
     </main>
   );
