@@ -48,13 +48,14 @@ export default function TimelineContainer() {
         });
       }
 
+      
       if (timeline.type === "periods") {
         timeline.periods.forEach((p) => {
-          for (let y = p.startYear; y <= p.endYear; y++) {
-            yearsSet.add(y);
-          }
+          yearsSet.add(p.startYear);
+          yearsSet.add(p.endYear);
         });
       }
+
     });
 
     return Array.from(yearsSet).sort((a, b) => a - b);
@@ -136,12 +137,30 @@ export default function TimelineContainer() {
 
       {/* "Legg tilfra liste" knapp */}
       <button
-        onClick={() => {
-          
-          const existing = initialTimelines[0];
-          setTimelines((prev) => [...prev, existing]);
+        onClick={handleAddFromList}
+        className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
+      >
+        Legg til fra liste
+      </button>
 
-          setTimelines((prev) => [...prev, existing]);
+      
+
+            );
+
+            if (available.length === 0) {
+              alert("Ingen flere tilgjengelige hjul");
+              return;
+            }
+
+            
+            const chosen = {
+              ...available[0],
+              id: Math.random().toString(),
+            };
+
+
+            setTimelines((prev) => [...prev, chosen]);
+          };
         }}
         className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
       >

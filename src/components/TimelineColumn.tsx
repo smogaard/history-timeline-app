@@ -53,7 +53,7 @@ export default function TimelineColumn({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          alert(`Rediger ${timeline.title}`);
+          alert(`Rediger ${timeline.title}?`);
         }}
         className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
       >
@@ -100,21 +100,34 @@ export default function TimelineColumn({
           }
 
           // PERIODS
+          
           if (timeline.type === "periods") {
             const period = timeline.periods.find(
-              (p) => year >= p.startYear && year <= p.endYear
+              (p) => p.startYear === year
             );
 
-            return (
-              <div key={year} className="relative h-12 flex items-center">
-                {period && (
-                  <div className="absolute left-0 right-4 h-6 bg-blue-200 rounded z-10 flex items-center px-2">
-                    {period.title}
+            if (period) {
+              const span =
+                years.findIndex(y => y === period.endYear) -
+                years.findIndex(y => y === period.startYear) + 1;
+
+              return (
+                <div key={year} className="relative h-12 flex items-start">
+                  <div
+                    className="absolute left-0 right-4 bg-blue-200 rounded z-10 flex items-center justify-center text-xs"
+                    style={{ height: `${span * 48}px` }} // 48px = h-12
+                  >
+                    <span style={{ writingMode: "vertical-rl" }}>
+                      {period.title}
+                    </span>
                   </div>
-                )}
-              </div>
-            );
+                </div>
+              );
+            }
+
+            return <div key={year} className="relative h-12" />;
           }
+
 
           return null;
         })}
