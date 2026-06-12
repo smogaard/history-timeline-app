@@ -39,8 +39,7 @@ export default function TimelineColumn({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative"
-    >
+      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative overflow-visible"
 
       <h2 
         {...listeners}
@@ -53,7 +52,7 @@ export default function TimelineColumn({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          alert(`Rediger ${timeline.title}?`);
+          const answer = confirm(`Rediger ${timeline.title}?`);
         }}
         className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
       >
@@ -86,7 +85,7 @@ export default function TimelineColumn({
 
                 {event && (
                   <>
-                    <div className="absolute left-[-300px] w-[300px] top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+                    <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
                     <div className="relative h-12 flex items-center whitespace-nowrap">
                       <span className="text-gray-500 text-sm mr-2">{event.year}</span>
@@ -101,11 +100,17 @@ export default function TimelineColumn({
 
           // PERIODS
           
+         
           if (timeline.type === "periods") {
             const period = timeline.periods.find(
               (p) => p.startYear === year
             );
 
+            const periodEnd = timeline.periods.find(
+              (p) => p.endYear === year
+            );
+
+            // START
             if (period) {
               const span =
                 years.findIndex(y => y === period.endYear) -
@@ -113,9 +118,13 @@ export default function TimelineColumn({
 
               return (
                 <div key={year} className="relative h-12 flex items-start">
+
+                  {/* ✅ start-linje */}
+                  <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+
                   <div
                     className="absolute left-0 right-4 bg-blue-200 rounded z-10 flex items-center justify-center text-xs"
-                    style={{ height: `${span * 48}px` }} // 48px = h-12
+                    style={{ height: `${span * 48}px` }}
                   >
                     <span style={{ writingMode: "vertical-rl" }}>
                       {period.title}
@@ -125,9 +134,19 @@ export default function TimelineColumn({
               );
             }
 
+            // SLUTT
+            if (periodEnd) {
+              return (
+                <div key={year} className="relative h-12 flex items-center">
+                  <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+                </div>
+              );
+            }
+
             return <div key={year} className="relative h-12" />;
           }
 
+s
 
           return null;
         })}

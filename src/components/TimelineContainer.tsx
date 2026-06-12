@@ -99,9 +99,10 @@ export default function TimelineContainer() {
   };
 
   
+  
   const handleAddFromList = () => {
     const available = initialTimelines.filter(
-      (t) => !timelines.some((active) => active.id === t.id)
+      (t) => !timelines.some((active) => active.title === t.title)
     );
 
     if (available.length === 0) {
@@ -109,13 +110,25 @@ export default function TimelineContainer() {
       return;
     }
 
+    const choice = prompt(
+      "Velg hjul:\n" + available.map((t, i) => `${i}: ${t.title}`).join("\n")
+    );
+
+    const index = Number(choice);
+
+    if (isNaN(index) || index < 0 || index >= available.length) {
+      alert("Ugyldig valg");
+      return;
+    }
+
     const chosen = {
-      ...available[0],
+      ...available[index],
       id: Math.random().toString(),
     };
 
     setTimelines((prev) => [...prev, chosen]);
   };
+
 
 
   const years = generateYears();
