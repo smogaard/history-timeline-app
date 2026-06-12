@@ -21,7 +21,7 @@ export type Timeline =
         startYear: number;
         endYear: number;
       }[];
-    };
+    }
 
   | {
       id: string;
@@ -34,4 +34,4 @@ export type Timeline =
         startYear: number;
         endYear: number;
       }[];
-    }
+    };

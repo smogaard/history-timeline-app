@@ -85,7 +85,12 @@ export default function TimelineColumn({
 
                 {event && (
                   <>
-                    <div className="absolute style={{ left: "-9999px", right: "calc(100% + 12px)" }} top-1/2 border-t border-dashed border-gray-400 z-0"></div>
+                    
+                    <div
+                      className="absolute top-1/2 border-t border-dashed border-gray-400 z-0"
+                      style={{ left: "-9999px", right: "calc(100% + 12px)" }}
+                    ></div>
+
 
                     <div className="relative h-12 flex items-center whitespace-nowrap">
                       <span className="text-gray-500 text-sm mr-2">{event.year}</span>
@@ -146,7 +151,7 @@ export default function TimelineColumn({
             return <div key={year} className="relative h-12" />;
           }
 
-          
+
           if (timeline.type === "combo") {
             const event = timeline.events.find(e => e.year === year);
 
