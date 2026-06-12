@@ -98,6 +98,26 @@ export default function TimelineContainer() {
     setTimelines([...timelines, newTimeline]);
   };
 
+  
+  const handleAddFromList = () => {
+    const available = initialTimelines.filter(
+      (t) => !timelines.some((active) => active.id === t.id)
+    );
+
+    if (available.length === 0) {
+      alert("Ingen flere tilgjengelige hjul");
+      return;
+    }
+
+    const chosen = {
+      ...available[0],
+      id: Math.random().toString(),
+    };
+
+    setTimelines((prev) => [...prev, chosen]);
+  };
+
+
   const years = generateYears();
 
   return (
@@ -142,34 +162,6 @@ export default function TimelineContainer() {
       >
         Legg til fra liste
       </button>
-
-      
-
-            );
-
-            if (available.length === 0) {
-              alert("Ingen flere tilgjengelige hjul");
-              return;
-            }
-
-            
-            const chosen = {
-              ...available[0],
-              id: Math.random().toString(),
-            };
-
-
-            setTimelines((prev) => [...prev, chosen]);
-          };
-        }}
-        className="fixed bottom-6 left-6 px-4 py-2 bg-gray-800 text-white rounded-lg"
-      >
-        Legg til fra liste
-      </button>
-
-      
-
-
 
     </main>
   );
