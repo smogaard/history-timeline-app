@@ -210,23 +210,33 @@ export default function TimelineContainer() {
           
           <div className="bg-white p-6 rounded-2xl flex flex-wrap gap-4 max-w-md">
 
-            {initialTimelines.map((t) => (
-              <div
-                key={t.id}
-                onClick={() => {
-                  const chosen = {
-                    ...t,
-                    id: Math.random().toString(),
-                  };
+            {initialTimelines.map((t) => {
+              const alreadyAdded = timelines.some(
+                (active) => active.title === t.title
+              );
 
-                  setTimelines((prev) => [...prev, chosen]);
-                  setShowList(false);
-                }}
-                className="w-[120px] h-[80px] bg-gray-100 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-200"
-              >
-                {t.title}
-              </div>
-            ))}
+              return (
+                <div
+                  key={t.id}
+                  onClick={() => {
+                    if (alreadyAdded) return;
+
+                    const chosen = {
+                      ...t,
+                      id: Math.random().toString(),
+                    };
+
+                    setTimelines((prev) => [...prev, chosen]);
+                    setShowList(false);
+                  }}
+                  className={`w-[120px] h-[80px] rounded-xl flex items-center justify-center
+                    ${alreadyAdded ? "bg-gray-300 cursor-not-allowed" : "bg-gray-100 hover:bg-gray-200 cursor-pointer"}
+                  `}
+                >
+                  {t.title}
+                </div>
+              );
+            })}
 
           </div>
 

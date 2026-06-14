@@ -1,6 +1,7 @@
 import { Timeline } from "../types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useState } from "react";
 
 export default function TimelineColumn({
   timeline,
@@ -13,6 +14,8 @@ export default function TimelineColumn({
   onRemove: (id: string) => void;
   years: number[];
 }) {
+
+  const [showEditConfirm, setShowEditConfirm] = useState(false);
 
   const {
     attributes,
@@ -50,10 +53,12 @@ export default function TimelineColumn({
       
       
       <button
+       
         onClick={(e) => {
           e.stopPropagation();
-          const name = prompt(`Rediger ${timeline.title}?`);
+          setShowEditConfirm(true);
         }}
+        
         className="absolute top-2 right-10 text-gray-400 hover:text-blue-500 z-10"
       >
         ✏️
@@ -88,7 +93,7 @@ export default function TimelineColumn({
                     
                     <div
                       className="absolute top-1/2 border-t border-dashed border-gray-400 z-0"
-                      style={{ left: "-9999px", right: "calc(100% + 12px)" }}
+                      style={{ left: "-9999px", right: "calc(100% + 60px)" }}
                     ></div>
 
 
@@ -187,6 +192,40 @@ export default function TimelineColumn({
 
 
       </div>
+
+      {showEditConfirm && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          
+          <div className="bg-white p-6 rounded-xl flex flex-col gap-4">
+            
+            <div>Rediger {timeline.title}?</div>
+
+            <div className="flex gap-4 justify-end">
+              
+              <button
+                onClick={() => setShowEditConfirm(false)}
+                className="px-3 py-1 bg-gray-200 rounded"
+              >
+                Avbryt
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowEditConfirm(false);
+                  // senere: åpne edit-mode
+                }}
+                className="px-3 py-1 bg-blue-600 text-white rounded"
+              >
+                OK
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+      
     </div>
   );
 }
