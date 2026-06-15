@@ -6,6 +6,7 @@ import TimelineColumn from "./TimelineColumn";
 import { timelines as initialTimelines } from "../data/events";
 import useScreenWidth from "../hooks/useScreenWidth";
 import TimeColumn from "./TimeColumn";
+import { Timeline } from "../types";
 
 import {
   DndContext,
@@ -310,7 +311,7 @@ export default function TimelineContainer() {
                 onClick={() => {
                   if (!newTitle) return;
 
-                  let newItem;
+                  let newItem: Timeline;
 
                   if (newType === "events") {
                     newItem = {
