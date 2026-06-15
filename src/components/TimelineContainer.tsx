@@ -22,9 +22,11 @@ import {
 
 export default function TimelineContainer() {
   
- const [showList, setShowList] = useState(false); 
- const [timelines, setTimelines] = useState(availableTimelines);
- const [availableTimelines, setAvailableTimelines] = useState(initialTimelines);
+  const [showList, setShowList] = useState(false); 
+
+  const [availableTimelines, setAvailableTimelines] = useState(initialTimelines);
+  const [timelines, setTimelines] = useState(initialTimelines);
+
  
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
