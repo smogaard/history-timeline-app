@@ -46,8 +46,7 @@ export default function TimelineColumn({
 
       <h2 
         {...listeners}
-        className="font-bold text-lg mb-3 cursor-move"
-      >
+        className="h-[32px] flex items-center font-bold text-lg mb-3">
         {timeline.title}
       </h2>
       
@@ -95,7 +94,7 @@ export default function TimelineColumn({
                       className="absolute top-1/2 border-t border-dashed border-gray-400 z-0"
                       style={{
                         right: "100%",
-                        width: "calc(100% + 60px)"
+                        width: "calc(100% + 20px)"
                       }}
                     ></div>
 
@@ -130,14 +129,20 @@ export default function TimelineColumn({
                 years.findIndex(y => y === period.startYear) + 1;
 
               return (
-                <div key={year} className="relative h-12 flex items-start">
+                <div key={year} className="relative h-12"
 
                   {/* ✅ start-linje */}
                   <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
 
                   <div
                     className="absolute left-0 right-4 bg-blue-200 rounded z-10 flex items-center justify-center text-xs"
-                    style={{ height: `${span * 48}px` }}
+                    
+                    style={{
+                      height: `${span * 48}px`,
+                      top: "50%",
+                      transform: "translateY(-50%)"
+                    }}
+
                   >
                     <span style={{ writingMode: "vertical-rl" }}>
                       {period.title}
