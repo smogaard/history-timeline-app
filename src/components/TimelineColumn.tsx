@@ -90,10 +90,13 @@ export default function TimelineColumn({
 
                 {event && (
                   <>
-                    
+                                        
                     <div
                       className="absolute top-1/2 border-t border-dashed border-gray-400 z-0"
-                      style={{ left: "-9999px", right: "calc(100% + 60px)" }}
+                      style={{
+                        right: "100%",
+                        width: "calc(100% + 60px)"
+                      }}
                     ></div>
 
 

@@ -23,7 +23,13 @@ import {
 export default function TimelineContainer() {
   
  const [showList, setShowList] = useState(false); 
- const [timelines, setTimelines] = useState(initialTimelines);
+ const [timelines, setTimelines] = useState(availableTimelines);
+ const [availableTimelines, setAvailableTimelines] = useState(initialTimelines);
+ 
+  const [showCreate, setShowCreate] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newType, setNewType] = useState<"events" | "periods" | "combo">("events");
+
  
  const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -86,49 +92,53 @@ export default function TimelineContainer() {
     const type = prompt("Type (events / periods / combo):");
     if (!type) return;
 
+    // ✅ EVENTS
     if (type === "events") {
-      setTimelines((prev) => [
-        ...prev,
-        {
-          id: Math.random().toString(),
-          title: name,
-          type: "events",
-          events: [],
-        },
-      ]);
+      const newItem = {
+        id: Math.random().toString(),
+        title: name,
+        type: "events" as const,
+        events: [],
+      };
+
+      setAvailableTimelines(prev => [...prev, newItem]);
+      setTimelines(prev => [...prev, newItem]);
     }
 
+    // ✅ PERIODS
     if (type === "periods") {
-      setTimelines((prev) => [
-        ...prev,
-        {
-          id: Math.random().toString(),
-          title: name,
-          type: "periods",
-          periods: [],
-        },
-      ]);
+      const newItem = {
+        id: Math.random().toString(),
+        title: name,
+        type: "periods" as const,
+        periods: [],
+      };
+
+      setAvailableTimelines(prev => [...prev, newItem]);
+      setTimelines(prev => [...prev, newItem]);
     }
 
+    // ✅ COMBO
     if (type === "combo") {
-      setTimelines((prev) => [
-        ...prev,
-        {
-          id: Math.random().toString(),
-          title: name,
-          type: "combo",
-          events: [],
-          periods: [],
-        },
-      ]);
+      const newItem = {
+        id: Math.random().toString(),
+        title: name,
+        type: "combo" as const,
+        events: [],
+        periods: [],
+      };
+
+      setAvailableTimelines(prev => [...prev, newItem]);
+      setTimelines(prev => [...prev, newItem]);
     }
   };
+
 
 
   
   
   const handleAddFromList = () => {
-    const available = initialTimelines.filter(
+    const available = availableTimelines.filter(
       (t) => !timelines.some((active) => active.title === t.title)
     );
 
@@ -188,12 +198,14 @@ export default function TimelineContainer() {
 
 
       {/* + knapp */}
+      
       <button
-        onClick={handleAddTimeline}
+        onClick={() => setShowCreate(true)}
         className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-blue-600 text-white text-3xl shadow-lg"
       >
         +
       </button>
+
 
       {/* "Legg tilfra liste" knapp */}
       
@@ -208,10 +220,18 @@ export default function TimelineContainer() {
       {showList && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
           
-          <div className="bg-white p-6 rounded-2xl flex flex-wrap gap-4 max-w-md">
+          <div className="bg-white p-6 rounded-2xl relative flex flex-wrap gap-4">
+            
+            <button
+              onClick={() => setShowList(false)}
+              className="absolute top-2 right-2 text-gray-500"
+            >
+              ✕
+            </button>
 
-            {initialTimelines.map((t) => {
-              const alreadyAdded = timelines.some(
+
+            {availableTimelines.map((t) => {
+              const isActive = timelines.some(
                 (active) => active.title === t.title
               );
 
@@ -219,19 +239,24 @@ export default function TimelineContainer() {
                 <div
                   key={t.id}
                   onClick={() => {
-                    if (alreadyAdded) return;
+                    if (isActive) {
+                      // fjern
+                      setTimelines(prev =>
+                        prev.filter(x => x.title !== t.title)
+                      );
+                    } else {
+                      // legg til
+                      const chosen = {
+                        ...t,
+                        id: Math.random().toString(),
+                      };
 
-                    const chosen = {
-                      ...t,
-                      id: Math.random().toString(),
-                    };
-
-                    setTimelines((prev) => [...prev, chosen]);
-                    setShowList(false);
+                      setTimelines(prev => [...prev, chosen]);
+                    }
                   }}
                   className={`w-[120px] h-[80px] rounded-xl flex items-center justify-center
-                    ${alreadyAdded ? "bg-gray-300 cursor-not-allowed" : "bg-gray-100 hover:bg-gray-200 cursor-pointer"}
-                  `}
+                    ${isActive ? "bg-blue-300" : "bg-gray-100 hover:bg-gray-200"}
+                    cursor-pointer`}
                 >
                   {t.title}
                 </div>
@@ -242,7 +267,94 @@ export default function TimelineContainer() {
 
         </div>
       )}
+      {showCreate && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
+          <div className="bg-white p-6 rounded-xl flex flex-col gap-4 w-[300px]">
+
+            <div className="font-semibold">Nytt hjul</div>
+
+            <input
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Navn på hjul"
+              className="border px-2 py-1 rounded"
+            />
+
+            <div className="flex gap-2">
+              {(["events", "periods", "combo"] as const).map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setNewType(type)}
+                  className={`
+                    flex-1 px-2 py-1 rounded
+                    ${newType === type ? "bg-blue-500 text-white" : "bg-gray-200"}
+                  `}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowCreate(false)}
+                className="px-3 py-1 bg-gray-200 rounded"
+              >
+                Avbryt
+              </button>
+
+              <button
+                onClick={() => {
+                  if (!newTitle) return;
+
+                  let newItem;
+
+                  if (newType === "events") {
+                    newItem = {
+                      id: Math.random().toString(),
+                      title: newTitle,
+                      type: "events" as const,
+                      events: [],
+                    };
+                  }
+
+                  if (newType === "periods") {
+                    newItem = {
+                      id: Math.random().toString(),
+                      title: newTitle,
+                      type: "periods" as const,
+                      periods: [],
+                    };
+                  }
+
+                  if (newType === "combo") {
+                    newItem = {
+                      id: Math.random().toString(),
+                      title: newTitle,
+                      type: "combo" as const,
+                      events: [],
+                      periods: [],
+                    };
+                  }
+
+                  setAvailableTimelines(prev => [...prev, newItem]);
+                  setTimelines(prev => [...prev, newItem]);
+
+                  setShowCreate(false);
+                  setNewTitle("");
+                  setNewType("events");
+                }}
+                className="px-3 py-1 bg-blue-600 text-white rounded"
+              >
+                OK
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      )}
     </main>
   );
 }
