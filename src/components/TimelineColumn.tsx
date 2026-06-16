@@ -46,10 +46,14 @@ export default function TimelineColumn({
 
       <h2 
         {...listeners}
-        className="h-[32px] flex items-center font-bold text-lg mb-3"
+        className="h-[40px] flex items-center font-bold text-lg mb-3"
       >
         {timeline.title}
+              <span className="ml-2 text-xs text-gray-500">
+          ({timeline.visibility === "public" ? "Offentlig" : "Privat"})
+        </span>
       </h2>
+
       
       
       <button
@@ -93,10 +97,12 @@ export default function TimelineColumn({
                                         
                     <div
                       className="absolute top-1/2 border-t border-dashed border-gray-400 z-0"
+                      
                       style={{
                         right: "100%",
-                        width: "calc(100% + 20px)"
+                        width: "100vw"
                       }}
+
                     ></div>
 
 
@@ -130,7 +136,7 @@ export default function TimelineColumn({
                 years.findIndex(y => y === period.startYear) + 1;
 
               return (
-                <div key={year} className="relative h-12">
+                <div key={year} className="relative h-12 flex items-center">
 
                   {/* ✅ start-linje */}
                   <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
@@ -138,18 +144,17 @@ export default function TimelineColumn({
                   <div
                     className="absolute left-0 right-4 bg-blue-200 rounded z-10 flex items-center justify-center text-xs"
                     
+                    
                     style={{
                       height: `${span * 48}px`,
-                      top: "50%",
-                      transform: "translateY(-50%)"
+                      top: "50%"
                     }}
-
                   >
                     <span style={{ writingMode: "vertical-rl" }}>
                       {period.title}
                     </span>
                   </div>
-                </div>
+                </div>  
               );
             }
 

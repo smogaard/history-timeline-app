@@ -22,12 +22,11 @@ import {
 
 
 export default function TimelineContainer() {
-  
-  const [showList, setShowList] = useState(false); 
-
-  const [availableTimelines, setAvailableTimelines] = useState(initialTimelines);
+      
+  const [availableTimelines, setAvailableTimelines] = useState              (initialTimelines);
   const [timelines, setTimelines] = useState(initialTimelines);
-
+  const [showList, setShowList] = useState(false); 
+  const [showPrivate, setShowPrivate] = useState(true);
  
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
@@ -172,9 +171,18 @@ export default function TimelineContainer() {
 
 
   const years = generateYears();
+  
 
   return (
     <main className="h-screen bg-gray-50 p-2 sm:p-4 overflow-hidden">
+      
+      <button
+        onClick={() => setShowPrivate((prev) => !prev)}
+        className="fixed top-4 right-4 px-3 py-1 bg-gray-800 text-white rounded z-50"
+      >
+        {showPrivate ? "Vis kun offentlige" : "Vis alle"}
+      </button>
+
             
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext
@@ -185,15 +193,20 @@ export default function TimelineContainer() {
             
             <TimeColumn years={years} />
 
-            {timelines.map((tl) => (
-              <TimelineColumn
-                key={tl.id}
-                timeline={tl}
-                total={timelines.length}
-                onRemove={handleRemove}
-                years={years}
-              />
+            
+            
+            {timelines
+              .filter((t) => showPrivate || t.visibility === "public")
+              .map((tl) => (
+                <TimelineColumn
+                  key={tl.id}
+                  timeline={tl}
+                  total={timelines.length}
+                  onRemove={handleRemove}
+                  years={years}
+                />
             ))}
+
 
           </div>
         </SortableContext>
@@ -285,16 +298,22 @@ export default function TimelineContainer() {
             />
 
             <div className="flex gap-2">
-              {(["events", "periods", "combo"] as const).map((type) => (
+              {(
+                [
+                  { key: "events", label: "Hendelser" },
+                  { key: "periods", label: "Perioder" },
+                  { key: "combo", label: "Kombinasjon" }
+                ]
+                as const).map((type) => (
                 <button
                   key={type}
-                  onClick={() => setNewType(type)}
+                  onClick={() => setNewType(type.key)}
                   className={`
                     flex-1 px-2 py-1 rounded
                     ${newType === type ? "bg-blue-500 text-white" : "bg-gray-200"}
                   `}
                 >
-                  {type}
+                  {type.label}
                 </button>
               ))}
             </div>
@@ -310,6 +329,7 @@ export default function TimelineContainer() {
               <button
                 onClick={() => {
                   if (!newTitle) return;
+                  const [newVisibility, setNewVisibility] = useState<"public" | "private">("public");
 
                   let newItem: Timeline;
 
@@ -318,6 +338,7 @@ export default function TimelineContainer() {
                       id: Math.random().toString(),
                       title: newTitle,
                       type: "events" as const,
+                      visibility: newVisibility,
                       events: [],
                     };
                   }
@@ -327,6 +348,7 @@ export default function TimelineContainer() {
                       id: Math.random().toString(),
                       title: newTitle,
                       type: "periods" as const,
+                      visibility: newVisibility,
                       periods: [],
                     };
                   }
@@ -336,10 +358,31 @@ export default function TimelineContainer() {
                       id: Math.random().toString(),
                       title: newTitle,
                       type: "combo" as const,
+                      visibility: newVisibility,
                       events: [],
                       periods: [],
                     };
                   }
+
+                  
+                  <div className="flex gap-2">
+                    {[
+                      { key: "public", label: "Offentlig" },
+                      { key: "private", label: "Privat" },
+                    ].map((v) => (
+                      <button
+                        key={v.key}
+                        onClick={() => setNewVisibility(v.key as "public" | "private")}
+                        className={`
+                          flex-1 px-2 py-1 rounded
+                          ${newVisibility === v.key ? "bg-blue-500 text-white" : "bg-gray-200"}
+                        `}
+                      >
+                        {v.label}
+                      </button>
+                    ))}
+                  </div>
+
 
                   setAvailableTimelines(prev => [...prev, newItem]);
                   setTimelines(prev => [...prev, newItem]);

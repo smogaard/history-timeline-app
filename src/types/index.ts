@@ -5,16 +5,20 @@ export type EventItem = {
 };
 
 export type Timeline =
+  
   | {
       id: string;
       title: string;
       type: "events";
+      visibility: "public" | "private";
       events: EventItem[];
     }
+
   | {
       id: string;
       title: string;
       type: "periods";
+      visibility: "public" | "private";
       periods: {
         id: string;
         title: string;
@@ -27,6 +31,7 @@ export type Timeline =
       id: string;
       title: string;
       type: "combo";
+      visibility: "public" | "private";
       events: EventItem[];
       periods: {
         id: string;
