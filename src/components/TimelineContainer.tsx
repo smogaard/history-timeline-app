@@ -289,8 +289,7 @@ export default function TimelineContainer() {
       {showCreate && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-          <div className="bg-white p-6 rounded-xl flex flex-col gap-4 w-[300px]">
-
+          <div className="bg-white p-6 rounded-xl flex flex-col gap-4 w-[380px]">
             <div className="font-semibold">Nytt hjul</div>
 
             <input
@@ -329,7 +328,7 @@ export default function TimelineContainer() {
 
               <button
                 onClick={() => {
-                  if (!newTitle) return;
+                  if (!newTitle || !newType || !newVisibility) return;
                   const [newVisibility, setNewVisibility] = useState<"public" | "private">("public");
 
                   let newItem: Timeline;
@@ -373,7 +372,7 @@ export default function TimelineContainer() {
                     ].map((v) => (
                       <button
                         key={v.key}
-                        onClick={() => setNewVisibility(v.key as "public" | "private")}
+                        onClick={() => setNewVisibility(v.key)}
                         className={`
                           flex-1 px-2 py-1 rounded
                           ${newVisibility === v.key ? "bg-blue-500 text-white" : "bg-gray-200"}
@@ -383,7 +382,7 @@ export default function TimelineContainer() {
                       </button>
                     ))}
                   </div>
-
+                  
 
                   setAvailableTimelines(prev => [...prev, newItem]);
                   setTimelines(prev => [...prev, newItem]);
