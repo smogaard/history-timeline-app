@@ -30,7 +30,9 @@ export default function TimelineContainer() {
  
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
-  const [newType, setNewType] = useState<"events" | "periods" | "combo">("events");
+  const [newType, setNewType] = useState<"events" | "periods" | "combo">
+  ("events");
+  const [newVisibility, setNewVisibility] = useState<"public" | "private">("public");
 
  
  const handleDragEnd = (event: any) => {
@@ -329,8 +331,7 @@ export default function TimelineContainer() {
               <button
                 onClick={() => {
                   if (!newTitle || !newType || !newVisibility) return;
-                  const [newVisibility, setNewVisibility] = useState<"public" | "private">("public");
-
+                  
                   let newItem: Timeline;
 
                   if (newType === "events") {
