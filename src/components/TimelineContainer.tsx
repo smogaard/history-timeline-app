@@ -367,10 +367,11 @@ export default function TimelineContainer() {
 
                   
                   <div className="flex gap-2">
-                    {[
-                      { key: "public", label: "Offentlig" },
-                      { key: "private", label: "Privat" },
-                    ].map((v) => (
+                    {([
+                        { key: "public", label: "Offentlig" },
+                        { key: "private", label: "Privat" },
+                      ] as const)
+                      .map((v) => (
                       <button
                         key={v.key}
                         onClick={() => setNewVisibility(v.key)}
