@@ -46,7 +46,8 @@ export default function TimelineColumn({
 
       <h2 
         {...listeners}
-        className="h-[32px] flex items-center font-bold text-lg mb-3">
+        className="h-[32px] flex items-center font-bold text-lg mb-3"
+      >
         {timeline.title}
       </h2>
       
@@ -129,7 +130,7 @@ export default function TimelineColumn({
                 years.findIndex(y => y === period.startYear) + 1;
 
               return (
-                <div key={year} className="relative h-12"
+                <div key={year} className="relative h-12">
 
                   {/* ✅ start-linje */}
                   <div className="absolute left-[-9999px] right-full top-1/2 border-t border-dashed border-gray-400 z-0"></div>
