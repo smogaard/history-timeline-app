@@ -298,19 +298,17 @@ export default function TimelineContainer() {
             />
 
             <div className="flex gap-2">
-              {(
-                [
+              {([
                   { key: "events", label: "Hendelser" },
                   { key: "periods", label: "Perioder" },
                   { key: "combo", label: "Kombinasjon" }
-                ]
-                as const).map((type) => (
+                ] as const).map((type) => (
                 <button
-                  key={type}
+                  key={type.key}
                   onClick={() => setNewType(type.key)}
                   className={`
                     flex-1 px-2 py-1 rounded
-                    ${newType === type ? "bg-blue-500 text-white" : "bg-gray-200"}
+                    ${newType === type.key ? "bg-blue-500 text-white" : "bg-gray-200"}
                   `}
                 >
                   {type.label}
