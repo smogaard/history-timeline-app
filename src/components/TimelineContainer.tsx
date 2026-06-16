@@ -96,42 +96,45 @@ export default function TimelineContainer() {
 
     // ✅ EVENTS
     if (type === "events") {
-      const newItem = {
-        id: Math.random().toString(),
-        title: name,
-        type: "events" as const,
-        events: [],
-      };
-
-      setAvailableTimelines(prev => [...prev, newItem]);
-      setTimelines(prev => [...prev, newItem]);
+      setAvailableTimelines(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(),
+          title: name,
+          type: "events",
+          visibility: "public",
+          events: [],
+        },
+      ]);
     }
 
     // ✅ PERIODS
     if (type === "periods") {
-      const newItem = {
-        id: Math.random().toString(),
-        title: name,
-        type: "periods" as const,
-        periods: [],
-      };
-
-      setAvailableTimelines(prev => [...prev, newItem]);
-      setTimelines(prev => [...prev, newItem]);
+      setAvailableTimelines(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(),
+          title: name,
+          type: "periods",
+          visibility: "public",
+          periods: [],
+        },
+      ]);
     }
 
     // ✅ COMBO
     if (type === "combo") {
-      const newItem = {
-        id: Math.random().toString(),
-        title: name,
-        type: "combo" as const,
-        events: [],
-        periods: [],
-      };
-
-      setAvailableTimelines(prev => [...prev, newItem]);
-      setTimelines(prev => [...prev, newItem]);
+      setAvailableTimelines(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(),
+          title: name,
+          type: "combo",
+          visibility: "public",
+          events: [],
+          periods: [],
+        },
+      ]);
     }
   };
 
