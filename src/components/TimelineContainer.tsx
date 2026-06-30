@@ -104,7 +104,7 @@ export default function TimelineContainer() {
           id: Math.random().toString(),
           title: name,
           type: "events",
-          visibility: "public",
+          visibility: newVisibility,
           events: [],
         },
       ]);
@@ -118,7 +118,7 @@ export default function TimelineContainer() {
           id: Math.random().toString(),
           title: name,
           type: "periods",
-          visibility: "public",
+          visibility: newVisibility,
           periods: [],
         },
       ]);
@@ -132,7 +132,7 @@ export default function TimelineContainer() {
           id: Math.random().toString(),
           title: name,
           type: "combo",
-          visibility: "public",
+          visibility: newVisibility,
           events: [],
           periods: [],
         },
@@ -183,7 +183,7 @@ export default function TimelineContainer() {
       
       <button
         onClick={() => setShowPrivate((prev) => !prev)}
-        className="fixed top-4 right-4 px-3 py-1 bg-gray-800 text-white rounded z-50"
+        className="fixed bottom-20 right-6 px-3 py-1 bg-gray-800 text-white rounded z-50"
       >
         {showPrivate ? "Vis kun offentlige" : "Vis alle"}
       </button>
@@ -320,6 +320,25 @@ export default function TimelineContainer() {
               ))}
             </div>
 
+            <div className="flex gap-2">
+              {([
+                  { key: "public", label: "Offentlig" },
+                  { key: "private", label: "Privat" },
+                ] as const)
+                .map((v) => (
+                <button
+                  key={v.key}
+                  onClick={() => setNewVisibility(v.key)}
+                  className={`
+                    flex-1 px-2 py-1 rounded
+                    ${newVisibility === v.key ? "bg-blue-500 text-white" : "bg-gray-200"}
+                  `}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowCreate(false)}
@@ -330,8 +349,8 @@ export default function TimelineContainer() {
 
               <button
                 onClick={() => {
-                  if (!newTitle || !newType || !newVisibility) return;
                   
+                  if (!newTitle || !newType) return;
                   let newItem: Timeline;
 
                   if (newType === "events") {
@@ -364,27 +383,6 @@ export default function TimelineContainer() {
                       periods: [],
                     };
                   }
-
-                  
-                  <div className="flex gap-2">
-                    {([
-                        { key: "public", label: "Offentlig" },
-                        { key: "private", label: "Privat" },
-                      ] as const)
-                      .map((v) => (
-                      <button
-                        key={v.key}
-                        onClick={() => setNewVisibility(v.key)}
-                        className={`
-                          flex-1 px-2 py-1 rounded
-                          ${newVisibility === v.key ? "bg-blue-500 text-white" : "bg-gray-200"}
-                        `}
-                      >
-                        {v.label}
-                      </button>
-                    ))}
-                  </div>
-                  
 
                   setAvailableTimelines(prev => [...prev, newItem]);
                   setTimelines(prev => [...prev, newItem]);
