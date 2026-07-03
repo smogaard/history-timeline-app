@@ -102,7 +102,7 @@ export default function TimelineColumn({
                         top: "50%",
                         transform: "translateY(-50%)",
                         right: "100%",
-                        width: "100vw"
+                        width: "calc(100vw - 80px)"
                       }}
 
 
