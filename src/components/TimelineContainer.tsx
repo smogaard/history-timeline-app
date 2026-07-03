@@ -26,8 +26,8 @@ export default function TimelineContainer() {
   const [availableTimelines, setAvailableTimelines] = useState              (initialTimelines);
   const [timelines, setTimelines] = useState(initialTimelines);
   const [showList, setShowList] = useState(false); 
+  const [showPublic, setShowPublic] = useState(true);
   const [showPrivate, setShowPrivate] = useState(true);
- 
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newType, setNewType] = useState<"events" | "periods" | "combo">
@@ -181,12 +181,27 @@ export default function TimelineContainer() {
   return (
     <main className="h-screen bg-gray-50 p-2 sm:p-4 overflow-hidden">
       
-      <button
-        onClick={() => setShowPrivate((prev) => !prev)}
-        className="fixed bottom-20 right-6 px-3 py-1 bg-gray-800 text-white rounded z-50"
-      >
-        {showPrivate ? "Vis kun offentlige" : "Vis alle"}
-      </button>
+      <div className="fixed bottom-20 right-6 bg-white p-3 rounded-lg shadow z-50 flex flex-col gap-2">
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={showPublic}
+            onChange={(e) => setShowPublic(e.target.checked)}
+          />
+          Offentlige
+        </label>
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={showPrivate}
+            onChange={(e) => setShowPrivate(e.target.checked)}
+          />
+          Private
+        </label>
+
+      </div>
 
             
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -198,11 +213,15 @@ export default function TimelineContainer() {
             
             <TimeColumn years={years} />
 
-            
-            
+                        
             {timelines
-              .filter((t) => showPrivate || t.visibility === "public")
+              .filter((t) => {
+                if (t.visibility === "public" && showPublic) return true;
+                if (t.visibility === "private" && showPrivate) return true;
+                return false;
+              })
               .map((tl) => (
+
                 <TimelineColumn
                   key={tl.id}
                   timeline={tl}
