@@ -42,7 +42,7 @@ export default function TimelineColumn({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow p-4 border relative overflow-visible">
+      className="flex-1 min-w-[180px] bg-white rounded-2xl shadow pt-2 px-4 pb-4 border relative overflow-visible">
 
       <h2 
         {...listeners}
