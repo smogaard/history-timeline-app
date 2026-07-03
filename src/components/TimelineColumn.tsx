@@ -93,27 +93,29 @@ export default function TimelineColumn({
               <div key={year} className="relative h-12 flex items-center">
 
                 {event && (
-                  <>
-                                        
+                  
+                  <div className="relative h-12 flex items-center whitespace-nowrap">
+
                     <div
-                      
                       className="absolute border-t border-dashed border-gray-400 z-0"
                       style={{
                         top: "50%",
                         transform: "translateY(-50%)",
-                        right: "100%",
-                        width: "calc(100vw - 80px)"
+                        right: "calc(100% + 2px)",
+                        width: "100vw"
                       }}
-
-
                     ></div>
 
+                    <span className="text-gray-500 text-sm mr-2">
+                      {event.year}
+                    </span>
 
-                    <div className="relative h-12 flex items-center whitespace-nowrap">
-                      <span className="text-gray-500 text-sm mr-2">{event.year}</span>
-                      <span className="font-medium">{event.title}</span>
-                    </div>
-                  </>
+                    <span className="font-medium">
+                      {event.title}
+                    </span>
+
+                  </div>
+
                 )}
 
               </div>
