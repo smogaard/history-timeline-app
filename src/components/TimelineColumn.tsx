@@ -46,7 +46,7 @@ export default function TimelineColumn({
 
       <h2 
         {...listeners}
-        className="h-[48px] flex items-center font-bold text-lg mb-3"
+        className="h-[48px] flex items-center font-bold text-lg mb-1"
       >
         {timeline.title}
               <span className="ml-2 text-xs text-gray-500">
